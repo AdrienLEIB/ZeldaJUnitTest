@@ -13,248 +13,265 @@ import utilitaires.Utilitaires;
 
 class TestData {
 
+	
 	Data dTest;
-
+	
 	@BeforeEach
 	void init() {
 		dTest = new Data();
-	}
-
-	@Test
-	void borderMapTest() {
-		// GIVEN
-		boolean failure = true;
-
-		// WHEN
 		Utilitaires.fillMap(dTest);
 
-		// THEN
-		for (int i = 0; i < dTest.map.length; i++) {
-			for (int j = 0; j < dTest.map[i].length; j++) {
-				if (dTest.map[0][j] != '0' || dTest.map[dTest.map.length - 1][j] != '0') {
-					failure = false;
-				}
-			}
-
-			if (dTest.map[i][0] != '0' || dTest.map[i][dTest.map.length - 1] != '0') {
-				failure = false;
-			}
-		}
-
-		assertTrue(failure);
-
-	}
-
-	@Test
-	void borderMapInitTest() {
-		// GIVEN
-		boolean insideInitOk = true;
-
-		// WHEN
-		Utilitaires.fillMap(dTest);
-
-		// THEN
-		for (int i = 1; i < dTest.map.length - 1; i++) {
-			for (int j = 1; j < dTest.map[i].length - 1; j++) {
-				if (dTest.map[i][j] != ' ') {
-					insideInitOk = false;
-				}
-			}
-		}
-
-		assertTrue(insideInitOk);
-
-	}
-
-	@Test
-	void nbOfPersoInArrayListWhenCreatedTest() {
-		// GIVEN
-		Utilitaires.fillMap(dTest);
-
-		// WHEN
-		Utilitaires.createPerso(dTest);
-
-		// THEN
-		assertEquals(6, dTest.alPerso.size());
-
-	}
-
-	@Test
-	void randomXY999foisTest() {
-
-		for (int i = 0; i < 1000; i++) {
-			randomXYTest();
-		}
-
-	}
-
-	@Test
-	void randomXYTest() {
-		// GIVEN
-		int min = 1;
-		int max = 8;
-		// WHEN
-		int result = Utilitaires.randomXY(min, max);
-
-		// THEN
-		assertTrue(min <= result);
-		assertTrue(max >= result);
-
-	}
-
-	@Test
-	void checkIfPersoOnMap() {
-		// GIVEN
-		Utilitaires.fillMap(dTest);
-		Utilitaires.createPerso(dTest);
-
-		// WHEN
-		Utilitaires.fillMapWithPerso(dTest);
-
-		// THEN
-		for (int i = 0; i < dTest.alPerso.size(); i++) {
-			Perso perso = dTest.alPerso.get(i);
-			assertEquals(perso.getName().charAt(0), dTest.map[perso.getX()][perso.getY()]);
-		}
-	}
-
-	@Test
-	void nbrOfPersoOnMap100foisTest() {
-
-		for (int i = 0; i < 100; i++) {
-			dTest = new Data();
-			nbrOfPersoOnMapTest();
-		}
-
-	}
-
-	@Test
-	void nbrOfPersoOnMapTest() {
-
-		Utilitaires.fillMap(dTest);
-		Utilitaires.createPerso(dTest);
-		Utilitaires.fillMapWithPerso(dTest);
-
-		int countPersoOnMap = 0;
-
-		for (int i = 1; i < dTest.map.length - 1; i++) {
-			for (int j = 1; j < dTest.map[i].length - 1; j++) {
-
-				if (dTest.map[i][j] != ' ') {
-					countPersoOnMap++;
-				}
-			}
-		}
-
-		assertEquals(dTest.alPerso.size(), countPersoOnMap);
 	}
 	
 	@Test
+	void testFillMapInitialBorder() {
+		boolean borderOk = true;
+		Utilitaires.fillMap(dTest);
+		for(int i = 0; i< dTest.map.length; i++) {
+			for(int j = 0; j< dTest.map[i].length; j++) {
+				if(dTest.map[0][j] != '0' ) borderOk=false;	
+				if(dTest.map[dTest.map.length-1][j] != '0' ) borderOk=false;
+			}
+			if(dTest.map[i][0]!= '0') borderOk=false;
+			if(dTest.map[i][dTest.map[i].length-1]!= '0') borderOk=false;
+		}
+		assertTrue(borderOk);
+	}
+	
+	@Test
+	void testFillMapInitialInside() {
+		boolean insideOk = true;
+		Utilitaires.fillMap(dTest);
+		for(int i = 1; i< dTest.map.length-1; i++) {
+			for(int j = 1; j< dTest.map[i].length-1; j++) {
+				if(dTest.map[i][j] != ' ') insideOk=false;	
+			}
+		}
+		assertTrue(insideOk);
+	}
+	
+	
+	@Test
+	void testNbOfPersoInArrayListWhenCreated() {
+		Utilitaires.fillMap(dTest);
+		Utilitaires.createPerso(dTest);
+		assertEquals(6, dTest.alPerso.size());
+		
+		//dTest.alPerso.contains(typeOf(this.Player.class));
+		
+	}
+	
+	@Test
+	void testNumberOfPersoOnMap1000() {
+		for(int i =0; i<1000; i++) {
+			dTest = new Data();
+
+			testNumberOfPersoOnMap();
+		}
+	}
+	
+	@Test
+	void testNumberOfPersoOnMap() {
+		
+		//Given
+		Utilitaires.fillMap(dTest);
+		Utilitaires.createPerso(dTest);
+		
+		//When
+		Utilitaires.fillMapWithPerso(dTest);
+		
+		int countPersoOnMap = 0;
+		for(int i = 1; i< dTest.map.length-1; i++) {
+			for(int j = 1; j< dTest.map[i].length-1; j++) {
+				if(dTest.map[i][j] != ' ') countPersoOnMap++;	
+			}
+		}
+		assertEquals(countPersoOnMap, dTest.alPerso.size());
+	}
+	
+	
+	@Test
+	void testRandomNumberGenerator100() {
+		for(int i =0; i<100; i++) {
+			testRandomNumberGenerator();
+		}
+	}
+	
+	@Test
+	void testRandomNumberGenerator(){
+		
+		int i = Utilitaires.randomXY(1, 9);
+
+	assertTrue(i<=8 && i>=1);
+	}
+	
+	@Test
+	public void checkIfPersoOnMap() {
+		//Given
+		Utilitaires.fillMap(dTest);
+		Utilitaires.createPerso(dTest);
+		
+		//When
+		Utilitaires.fillMapWithPerso(dTest);
+		
+		//Then
+		assertEquals(dTest.alPerso.get(0).getName().charAt(0),
+				dTest.map[dTest.alPerso.get(0).getX()]
+				[dTest.alPerso.get(0).getY()]);
+	}
+
+	@Test
+	public void mouvPlayerOnMapOk() {
+		Perso p = new Player("Player", 5,5);
+		Utilitaires.fillMap(dTest);
+		int tempX = p.getX();
+		int tempY = p.getY();
+		dTest.alPerso.add(p);
+		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
+		Utilitaires.mouvPerso(dTest);
+		assertTrue((dTest.map[p.getX()+1][p.getY()] == p.getName().charAt(0)
+				||dTest.map[p.getX()-1][p.getY()] == p.getName().charAt(0)
+				||dTest.map[p.getX()][p.getY()+1] == p.getName().charAt(0)
+				||dTest.map[p.getX()][p.getY()-1] == p.getName().charAt(0))
+				&&dTest.map[tempX][tempY] != p.getName().charAt(0));
+	}
+	
+	@Test
+	public void mouvPlayerOnMapNotOnBorder() {
+		Perso p = new Player("Player", 8,8 );
+		Utilitaires.fillMap(dTest);
+		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
+		int tempX = p.getX();
+		int tempY = p.getY();
+		Utilitaires.mouvPerso(dTest);
+		assertTrue((dTest.map[tempX-1][tempY] == p.getName().charAt(0)
+				||dTest.map[tempX][tempY-1] == p.getName().charAt(0))
+				||dTest.map[tempX][tempY] == p.getName().charAt(0));
+	}
+	
+	@Test
+	public void mouvEnemyOnMapOk() {
+		Perso p = new Enemy("Enemy", 5,5);
+		dTest.alPerso.add(p);
+		Utilitaires.fillMap(dTest);
+		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
+		int tempX = p.getX();
+		int tempY = p.getY();
+		
+		Utilitaires.mouvPerso(dTest);
+		
+		assertTrue((dTest.map[tempX+1][tempY] == p.getName().charAt(0)
+				||dTest.map[tempX-1][tempY] == p.getName().charAt(0)
+				||dTest.map[tempX][tempY+1] == p.getName().charAt(0)
+				||dTest.map[tempX][tempY-1] == p.getName().charAt(0))
+				&&dTest.map[tempX][tempY] != p.getName().charAt(0));
+	}
+	
+	@Test
+	public void mouvEnemiesOnMapOk() {
+		int nbOfEnemiesToBeTested = 3;
+		int [][] tempPos = new int [3][2];
+		Utilitaires.fillMap(dTest);
+
+		for(int i = 0; i <nbOfEnemiesToBeTested; i++) {
+			dTest.alPerso.add(new Enemy("Enemy", (i+1)*2, (i+1)*2));
+			tempPos[i][0] = (i+1)*2;
+			tempPos[i][1] = (i+1)*2;
+		}
+		for (Perso p : dTest.alPerso) {
+			dTest.map[p.getX()][p.getY()]=p.getName().charAt(0);
+		}
+		Utilitaires.mouvPerso(dTest);
+		
+		for(int i = 0; i <nbOfEnemiesToBeTested; i++) {
+			assertTrue((dTest.map[tempPos[i][0]+1][tempPos[i][1]] == dTest.alPerso.get(i).getName().charAt(0)
+					||dTest.map[tempPos[i][0]-1][tempPos[i][1]] == dTest.alPerso.get(i).getName().charAt(0)
+					||dTest.map[tempPos[i][0]][tempPos[i][1]+1] == dTest.alPerso.get(i).getName().charAt(0)
+					||dTest.map[tempPos[i][0]][tempPos[i][1]-1] == dTest.alPerso.get(i).getName().charAt(0))
+					&&dTest.map[tempPos[i][0]][tempPos[i][1]] != dTest.alPerso.get(i).getName().charAt(0));
+			}
+	}
+	
+	
+	
+	
+	@Test
+	public void mouvEnemyOnMapNotOnBorder() {
+		Perso p = new Enemy("Enemy", 8,8 );
+		Utilitaires.fillMap(dTest);
+		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
+		int tempX = p.getX();
+		int tempY = p.getY();
+		Utilitaires.mouvPerso(dTest);
+		assertTrue((dTest.map[tempX-1][tempY] == p.getName().charAt(0)
+				||dTest.map[tempX][tempY-1] == p.getName().charAt(0))
+				||dTest.map[tempX][tempY] == p.getName().charAt(0));
+	}
+	
+	
+	
+	
+	/*@Test
 	public void checkIfSaisieStringDoesNotReturnNull() {
-		System.out.println("Une saisie : ");
 		String toBeTested = Utilitaires.saisieString();
 		assertNotNull(toBeTested);
 	}
 	
 	@Test
-	public static void mouvPlayerOnMapOk(Data dTest) {
-		Perso p = new Player("Perso", 5, 5);
-		Utilitaires.fillMap(dTest);
-		int tempx = p.getX();
-		int tempy = p.getY();
-		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
-		Utilitaires.mouvPerso(dTest);
-		assertTrue(dTest.map[p.getX()+1][p.getY()] == p.getName().charAt(0)  
-				|| dTest.map[p.getX()-1][p.getY()] == p.getName().charAt(0) 
-				|| dTest.map[p.getX()][p.getY()+1] == p.getName().charAt(0)
-				|| dTest.map[p.getX()][p.getY()-1] == p.getName().charAt(0)
-				&& dTest.map[p.getX()][p.getY()] != p.getName().charAt(0)
-				);
-		
-	}
+	public void checkIfSaisieStringReturnException() {
+		String toBeTested = Utilitaires.saisieString();
+		assertNotNull(toBeTested);
+	}*/
 	
-	@Test
-	public static void mouvPlayerOnMapNotOnBorder(Data dTest) {
-		Perso p = new Player("Perso", 8, 8);
-		Utilitaires.fillMap(dTest);
-		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
-		Utilitaires.mouvPerso(dTest);
-		assertTrue( 
-					dTest.map[p.getX()-1][p.getY()] == p.getName().charAt(0) 
-				|| dTest.map[p.getX()][p.getY()-1] == p.getName().charAt(0)
-				|| dTest.map[p.getX()][p.getY()] != p.getName().charAt(0)
-				);
-		
-	}
-	
-	@Test
-	public static void mouvEnnemyOnMapNotOnBorder(Data dTest) {
-		Perso p = new Enemy("Enemy", 8, 8);
-		Utilitaires.fillMap(dTest);
-		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
-		Utilitaires.mouvPerso(dTest);
-		assertTrue( 
-					dTest.map[p.getX()-1][p.getY()] == p.getName().charAt(0) 
-				|| dTest.map[p.getX()][p.getY()-1] == p.getName().charAt(0)
-				|| dTest.map[p.getX()][p.getY()] != p.getName().charAt(0)
-				);
-		
-	}
-	
-	@Test
-	public void mouvEnemyOnMapOk() {
-		Perso p = new Enemy("Enemy", 6,6);
-		dTest.alPerso.add(p);
-		Utilitaires.fillMap(dTest);
-		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
-		dTest.alPerso.add(p);
 
-		int tempX = p.getX();
-		int tempY = p.getY();
-
+	@Test
+	public void testMovePlayerTowardsEnemySpot(){
 		// WHEN
-		Utilitaires.mouvPerso(dTest);
-
+		
 		// THEN
-		assertTrue((dTest.map[p.getX() + 1][tempY] == p.getName().charAt(0)
-				|| dTest.map[p.getX() - 1][tempY] == p.getName().charAt(0)
-				|| dTest.map[tempX][p.getY() + 1] == p.getName().charAt(0)
-				|| dTest.map[tempX][p.getY() - 1] == p.getName().charAt(0))
-				&& dTest.map[tempX][tempY] != p.getName().charAt(0));
+		// add method on moovPerso, regarde si le jeu doit s'arrete ou il continue en cas de rencontre elle return un boolean
 		
-		
+		// on appelle mooove,
+		// 
 		
 	}
 	
 	@Test
-	public void mouvEnemiesOnMapOk() {
+	public void testMoveEnemyTowardsPlayerSpot(){
 		// GIVEN
-		Utilitaires.fillMap(dTest);
-
-		for (int i = 1; i <= 3; i++) {
-			Perso p = new Enemy("E" + (i * 2), i * 2, i * 2);
-			dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
-			dTest.alPerso.add(p);
-		}
-
+		
+		
 		// WHEN
-		Utilitaires.mouvPerso(dTest);
-
+		
 		// THEN
-		for (Perso perso : dTest.alPerso) {
-
-			int tempX = Integer.parseInt(perso.getName().substring(1, 2));
-			int tempY = tempX;
-
-			assertTrue((dTest.map[perso.getX() + 1][tempY] == perso.getName().charAt(0)
-					|| dTest.map[perso.getX() - 1][tempY] == perso.getName().charAt(0)
-					|| dTest.map[tempX][perso.getY() + 1] == perso.getName().charAt(0)
-					|| dTest.map[tempX][perso.getY() - 1] == perso.getName().charAt(0))
-					&& dTest.map[tempX][tempY] != perso.getName().charAt(0));
-		}
-
+		
 	}
-
-
-
+	
+	@Test
+	public void testMoveEnemyTowardEnemySpot() {
+		// GIVEN
+		
+		
+		// WHEN
+		
+		// THEN
+		
+	}
+	
+	@Test
+	public void testConflictAndGameOver() {
+		Perso p = new Player("Player", 5, 5);
+		// dTest.alPerso.add(new Enemy("Enemy", 5,6));
+		dTest.map[5][6] = 'e';
+		assertFalse(Utilitaires.isGameOn(dTest, p, 0, 1));
+	}
+	
+	
+	@Test
+	public void testNoConflictAndGameOn() {
+		Perso p = new Player("Player", 5, 5);
+		// dTest.alPerso.add(new Enemy("Enemy", 5,6));
+		dTest.map[5][6] = 'e';
+		assertTrue(Utilitaires.isGameOn(dTest, p, 0, -1));
+	}
 }

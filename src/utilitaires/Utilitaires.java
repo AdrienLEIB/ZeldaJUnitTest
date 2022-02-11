@@ -90,6 +90,7 @@ public class Utilitaires {
 					if (d.map[perso.getX()][perso.getY() - 1] == ' ') {
 
 						d.map[perso.getX()][perso.getY()] = ' ';
+						
 						perso.setY(perso.getY() - 1);
 						d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
 
@@ -170,7 +171,24 @@ public class Utilitaires {
 
 		default:
 			System.out.println("Mauvaise Saisie");
+			
+		
 		}
 	}
+	
+	
+	public static boolean isGameOn(Data d,Perso perso, int x, int y) {
 
+		if(d.map[perso.getX()+x][perso.getY()+y] != ' ') {
+			return false;
+		}
+		return true;
+	}
+	
+	
+	
+	public static boolean isGameOnPerfect(Data d,Perso perso, int x, int y) {
+
+		return (d.map[perso.getX()+x][perso.getY()+y] == ' ');
+	}
 }
