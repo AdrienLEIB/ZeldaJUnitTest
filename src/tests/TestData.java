@@ -204,12 +204,23 @@ class TestData {
 	@Test
 	public void mouvEnemyOnMapOk() {
 		Perso p = new Enemy("Enemy", 6,6);
+		dTest.alPerso.add(p);
 		Utilitaires.fillMap(dTest);
 		dTest.map[p.getX()][p.getY()] = p.getName().charAt(0);
-		
-		int tempsX = p.getX();
-		int tempsY = p.getY();
-		
+		dTest.alPerso.add(p);
+
+		int tempX = p.getX();
+		int tempY = p.getY();
+
+		// WHEN
+		Utilitaires.mouvPerso(dTest);
+
+		// THEN
+		assertTrue((dTest.map[p.getX() + 1][tempY] == p.getName().charAt(0)
+				|| dTest.map[p.getX() - 1][tempY] == p.getName().charAt(0)
+				|| dTest.map[tempX][p.getY() + 1] == p.getName().charAt(0)
+				|| dTest.map[tempX][p.getY() - 1] == p.getName().charAt(0))
+				&& dTest.map[tempX][tempY] != p.getName().charAt(0));
 		
 		
 		

@@ -16,8 +16,12 @@ public class Main {
 		
 		Utilitaires.fillMapWithPerso(d);
 		
+		while(true) {
+			Utilitaires.printMap(d);
+			Utilitaires.mouvPerso(d);
+			// Utilitaires.printMap(d);
+		}
 		
-		Utilitaires.printMap(d);
 	}
 
 }
