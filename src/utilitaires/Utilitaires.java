@@ -6,6 +6,7 @@ import model.Perso;
 import model.Player;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Utilitaires {
 	
@@ -39,7 +40,7 @@ public class Utilitaires {
 	}
 	
 	public static void createPerso(Data data) {
-		data.alPerso.add(new Player("Hugo", randomXY(1, data.map.length-1), randomXY(1, data.map[0].length-1)));
+		data.alPerso.add(new Player("Player", randomXY(1, data.map.length-1), randomXY(1, data.map[0].length-1)));
 		int x;
 		int y;
 		for (int i = 0; i<5; i++) {
@@ -62,6 +63,91 @@ public class Utilitaires {
 		
 		
 	}
+	
+	public static String saisieString() {
+		try {
+		Scanner sc = new Scanner(System.in);
+		return sc.next();
+		}
+		catch(Exception e) {
+			return "erreur";
+		}
+	}
+	
+	
+	public static void mouvPerso(Data d) {
+		for (Perso perso : d.alPerso) {
+			if(perso.getName().charAt(0) == 'p') {
+				String saisieToProcess = saisieString();
+				switch(saisieToProcess) {
+				case "z": 
+					if(d.map[perso.getX()][perso.getY() -1] == ' ') {
+					
+					d.map[perso.getX()][perso.getY()] = ' ';
+					perso.setY(perso.getY() -1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				case "q": 
+					if(d.map[perso.getX()-1][perso.getY()] == ' ') {
+					
+					d.map[perso.getX()-1][perso.getY()] = ' ';
+					perso.setX(perso.getX() -1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				case "s": 
+					if(d.map[perso.getX()][perso.getY() +1] == ' ') {
+					
+					d.map[perso.getX()][perso.getY()] = ' ';
+					perso.setY(perso.getY() +1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				case "d": 
+					if(d.map[perso.getX()+1][perso.getY()] == ' ') {
+					
+					d.map[perso.getX()][perso.getY()] = ' ';
+					perso.setX(perso.getX() +1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				default : System.out.println("Mauvaise Sasie");
+				}
 
+				
+			}
+			else if(perso.getName().charAt(0) == 'e')  {
+				switch(randomXY(1,5)) {
+				case 1: 
+					if(d.map[perso.getX()][perso.getY() -1] == ' ') {
+					
+					d.map[perso.getX()][perso.getY()] = ' ';
+					perso.setY(perso.getY() -1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				case 2: 
+					if(d.map[perso.getX()-1][perso.getY()] == ' ') {
+					
+					d.map[perso.getX()-1][perso.getY()] = ' ';
+					perso.setX(perso.getX() -1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				case 3: 
+					if(d.map[perso.getX()][perso.getY() +1] == ' ') {
+					
+					d.map[perso.getX()][perso.getY()] = ' ';
+					perso.setY(perso.getY() +1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				case 4: 
+					if(d.map[perso.getX()+1][perso.getY()] == ' ') {
+					
+					d.map[perso.getX()][perso.getY()] = ' ';
+					perso.setX(perso.getX() +1);
+					d.map[perso.getX()][perso.getY()] = perso.getName().charAt(0);
+				};
+				default : System.out.println("Mauvaise Sasie");
+				}
+			}
+		}
+	}
+	
 
 }
